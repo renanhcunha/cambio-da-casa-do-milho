@@ -76,7 +76,14 @@ const renderRate = (key, value) => {
   const formattedValue = value.toFixed(2);
 
   const li = document.createElement('li');
-  li.innerHTML = `<b>${key}:</b> ${formattedValue}`;
+  li.innerHTML = `<b>${key}:</b> ${formattedValue} <img src="./assets/trash.png">`;
+  li.addEventListener('click', handleItemListClick);
 
   currencyList.appendChild(li);
+}
+
+const handleItemListClick = (event) => {
+  const currencyList = document.querySelector('#currency-list');
+  const li = event.target;
+  currencyList.removeChild(li);
 }
