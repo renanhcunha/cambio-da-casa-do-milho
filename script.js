@@ -14,6 +14,9 @@ const setupEventHandlers = () => {
   const searchButton = document.querySelector('#search-button');
   searchButton.addEventListener('click', handleSearchEvent);
 
+  const clearButton = document.querySelector('#clear-button');
+  clearButton.addEventListener('click', clearList);
+
   const inputText = document.querySelector('#currency-input');
   inputText.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
@@ -48,7 +51,6 @@ const fetchCurrency = (currency) => {
   fetch(endpoint)
     .then((response) => response.json())
     .then((object) => {
-      console.log(object);
       if (object.error) {
         throw new Error(object.error);
       } else {
@@ -63,10 +65,21 @@ const handleError = (errorMessage) => {
 }
 
 const handleRates = (rates) => {
-  const ratesKeys = Object.keys(rates);
-  
-  ratesKeys.forEach((key) => {
-    const value = rates[key];
+  const currencyFilter = document.querySelector('#currency-filter').value;
+  const ratesKeys = Object.keys(rates).sort();
+  const isCurrencyFilterValid = ratesKeys.includes(currencyFilter);
+
+  if(!isCurrencyFilterValid && currencyFilter !== '') return window.alert("Moeda inválida");
+
+  const ratesKeysFiltered = ratesKeys
+    .filter(key => (currencyFilter !== '') ? (key === currencyFilter) : true);
+
+  let currencyNumber = document.querySelector('#currency-number').value;
+
+  if(!currencyNumber) currencyNumber = 1;
+
+  ratesKeysFiltered.forEach((key) => {
+    const value = ((Math.round(rates[key] * 100)) / 100) * currencyNumber;
     renderRate(key, value);
   })
 }
