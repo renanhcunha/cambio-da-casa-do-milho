@@ -65,14 +65,21 @@ const handleError = (errorMessage) => {
 }
 
 const handleRates = (rates) => {
+  const currencyFilter = document.querySelector('#currency-filter').value;
   const ratesKeys = Object.keys(rates).sort();
+  const isCurrencyFilterValid = ratesKeys.includes(currencyFilter);
+
+  if(!isCurrencyFilterValid && currencyFilter !== '') return window.alert("Moeda inválida");
+
+  const ratesKeysFiltered = ratesKeys
+    .filter(key => (currencyFilter !== '') ? (key === currencyFilter) : true);
+
   let currencyNumber = document.querySelector('#currency-number').value;
 
   if(!currencyNumber) currencyNumber = 1;
 
-  ratesKeys.forEach((key) => {
+  ratesKeysFiltered.forEach((key) => {
     const value = ((Math.round(rates[key] * 100)) / 100) * currencyNumber;
-    console.log(value);
     renderRate(key, value);
   })
 }
