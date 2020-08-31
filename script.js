@@ -14,6 +14,9 @@ const setupEventHandlers = () => {
   const searchButton = document.querySelector('#search-button');
   searchButton.addEventListener('click', handleSearchEvent);
 
+  const clearButton = document.querySelector('#clear-button');
+  clearButton.addEventListener('click', clearList);
+
   const inputText = document.querySelector('#currency-input');
   inputText.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
