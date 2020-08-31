@@ -66,7 +66,7 @@ const handleError = (errorMessage) => {
 }
 
 const handleRates = (rates) => {
-  const ratesKeys = Object.keys(rates);
+  const ratesKeys = Object.keys(rates).sort();
   
   ratesKeys.forEach((key) => {
     const value = rates[key];
